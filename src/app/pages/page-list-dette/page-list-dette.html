@@ -1,0 +1,46 @@
+<div class="container mx-auto p-4">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">Dettes de {{ client?.nom }}</h1>
+    <button (click)="addDette()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+      Ajouter une dette
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center py-8">
+    <p>Chargement des dettes...</p>
+  </div>
+
+  <div *ngIf="!isLoading && dettes.length === 0" class="text-center py-8">
+    <p>Aucune dette enregistrée pour ce client</p>
+  </div>
+
+  <div *ngIf="!isLoading && dettes.length > 0" class="overflow-x-auto">
+    <table class="min-w-full bg-white border">
+      <thead>
+      <tr class="bg-gray-100">
+        <th class="py-2 px-4 border">Date</th>
+        <th class="py-2 px-4 border">Description</th>
+        <th class="py-2 px-4 border">Montant</th>
+        <th class="py-2 px-4 border">Payé</th>
+        <th class="py-2 px-4 border">Reste</th>
+        <th class="py-2 px-4 border">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let dette of dettes" class="hover:bg-gray-50">
+        <td class="py-2 px-4 border">{{ dette.date | date:'dd/MM/yyyy' }}</td>
+        <td class="py-2 px-4 border">{{ dette.description || '-' }}</td>
+        <td class="py-2 px-4 border">{{ dette.montantDette | currency:'EUR' }}</td>
+        <td class="py-2 px-4 border">{{ dette.montantPaye | currency:'EUR' }}</td>
+        <td class="py-2 px-4 border">{{ dette.montantDette - dette.montantPaye | currency:'EUR' }}</td>
+        <td class="py-2 px-4 border">
+          <button (click)="viewDetteDetails(dette.id)"
+                  class="text-blue-600 hover:text-blue-800 mr-2">
+            Détails
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

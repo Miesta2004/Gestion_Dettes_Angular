@@ -1,0 +1,16 @@
+<h2>Ajouter une dette</h2>
+
+<form (ngSubmit)="addDette()">
+  <label>Client</label>
+  <select [(ngModel)]="dette.clientId" name="clientId" required>
+    <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
+  </select>
+
+  <label>Date</label>
+  <input type="date" [(ngModel)]="dette.date" name="date" required />
+
+  <label>Montant de la dette</label>
+  <input type="number" [(ngModel)]="dette.montantDette" name="montantDette" required />
+
+  <button type="submit">Ajouter</button>
+</form>
