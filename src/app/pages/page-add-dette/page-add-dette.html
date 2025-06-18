@@ -1,16 +1,43 @@
-<h2>Ajouter une dette</h2>
+<div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">
+    Ajouter une dette pour {{ client?.nom }}
+  </h2>
 
-<form (ngSubmit)="addDette()">
-  <label>Client</label>
-  <select [(ngModel)]="dette.clientId" name="clientId" required>
-    <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }}</option>
-  </select>
+  <form (ngSubmit)="addDette()" class="space-y-4">
+    <!-- Affichage du client (non modifiable) -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Client</label>
+      <div class="mt-1 p-2 bg-gray-100 rounded-md">
+        {{ client?.nom }} - {{ client?.telephone }}
+      </div>
+    </div>
 
-  <label>Date</label>
-  <input type="date" [(ngModel)]="dette.date" name="date" required />
+    <!-- Date -->
+    <div>
+      <label for="date" class="block text-sm font-medium text-gray-700">Date *</label>
+      <input type="date" id="date" name="date" [(ngModel)]="dette.date" required
+             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+    </div>
 
-  <label>Montant de la dette</label>
-  <input type="number" [(ngModel)]="dette.montantDette" name="montantDette" required />
-
-  <button type="submit">Ajouter</button>
-</form>
+    <!-- Montant -->
+    <div>
+      <label for="montantDette" class="block text-sm font-medium text-gray-700">Montant *</label>
+      <input type="number" step="0.01" id="montantDette" name="montantDette"
+             [(ngModel)]="dette.montantDette" required min="0.01"
+             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+             placeholder="0.00">
+    </div>
+    <!-- Boutons -->
+    <div class="flex justify-end space-x-4 pt-4">
+      <button type="button" (click)="cancel()"
+              class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+        Annuler
+      </button>
+      <button type="submit" [disabled]="!detteFormValid || isLoading"
+              class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300">
+        <span *ngIf="!isLoading">Ajouter la dette</span>
+        <span *ngIf="isLoading">Enregistrement...</span>
+      </button>
+    </div>
+  </form>
+</div>
